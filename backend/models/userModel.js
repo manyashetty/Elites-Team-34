@@ -29,6 +29,18 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
+    landmark: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
     profile_pic: {
       type: String,
       trim: true,
@@ -36,7 +48,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "user","superAdmin"],
+      enum: ["supplier ", "user","consumer"],
       default: "user",
     },
   },

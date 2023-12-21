@@ -263,7 +263,7 @@ function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
       <div className="flex items-center space-x-4">{/* Use your image here */}
       <img src={logo} alt="Company Logo" width="90" height="70" />
-      <h1>CollabHub</h1>
+      <h1>Feed-Link</h1>
         </div>
         <button
           className="sm:hidden text-white hover:text-gray-200"
@@ -327,7 +327,7 @@ function Navbar() {
                 href="/projects"
                 onClick={closeMenu}
               >
-                Projects
+                Profile
               </a>
             </li>
             
@@ -404,7 +404,7 @@ function Navbar() {
             className="text-white hover:text-gray-200 hover:underline font-serif"
             href="/projects"
           >
-            Projects
+            Profile
           </a>
         </li>
         

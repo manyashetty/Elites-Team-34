@@ -4,14 +4,46 @@ import Projects from '../components/Projects';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import img from '../images/pexels-fauxels-3183150.jpg';
-
+import Carousel from 'react-bootstrap/Carousel';
+import img1 from '../images/pexels-karen-laårk-boshoff-8538757.jpg';
+import img2 from '../images/pexels-ella-olsson-1640774.jpg';
+import img3 from '../images/pexels-roman-odintsov-4871119.jpg';
+import img4 from '../images/pexels-leeloo-thefirst-6507004.jpg';
 const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 gap-4">
+      <div className="col-span-full lg:col-span-3">
+          {/* Leaderboard or other content */}
+          {/* Add your leaderboard or other content here */}
+        </div>
+
+
+        <div className="col-span-full lg:col-span-9">
+          {/* Carousel */}
+          <Carousel>
+            <Carousel.Item>
+              <img className="d-block w-100" src={img1} alt="First slide" />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img className="d-block w-100" src={img2} alt="Second slide" />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img className="d-block w-100" src={img3} alt="Third slide" />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img className="d-block w-100" src={img4} alt="4th slide" />
+            </Carousel.Item>
+            {/* Add additional Carousel.Items for more images */}
+          </Carousel>
+        </div>
+
+        
+
+      {/* <div className="grid grid-cols-12">
         <div className="col-span-full">
-          {/* Image within the content */}
+        
           <img
             src={img}
             alt="img"
@@ -23,7 +55,7 @@ const HomePage = () => {
               marginBottom: '-5px', // Adjust this value as needed to avoid extra space
             }}
           />
-        </div>
+        </div> */}
 
         <div className="col-span-full">
         <h3><a

@@ -10,7 +10,8 @@ function Footer() {
         <div className="mb-6 md:mb-0 w-full md:w-1/4">
           
           <p className="text-center">
-          CollabHub - Unite, Communicate, Achieve
+         Feed-Link : 
+         Connecting Lives, Nourishing Communities
           </p>
           
         </div>

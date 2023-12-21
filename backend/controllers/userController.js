@@ -6,45 +6,94 @@ const aws = require("aws-sdk");
 
 //                         CREATE USER CONTROLLER
 // Controller function to create a new user and insert data into the user_collection
+// const createUser = async (req, res) => {
+//   try {
+//     // Generate a salt for password hashing
+//     const salt = await bcrypt.genSalt(10);
+//     // console.log(req.body.password)
+//     const { password } = req.body;
+
+//     // Hash the password using the generated salt
+//     const hashedPassword = await bcrypt.hash(password, salt);
+
+//     // Extract user data from the request body
+//     const data = req.body;
+
+//     // Check if any data is provided in the request
+//     if (Object.keys(data).length === 0) {
+//       return res.status(400).send({ status: false, msg: "no data provided" });
+//     }
+
+//     // Check if the image has been successfully uploaded
+//     const { profile_pic } = req.body;
+//     if (!profile_pic) {
+//       return res
+//         .status(400)
+//         .send({ status: false, msg: "No project image provided" });
+//     }
+
+//     // Generate a pre-signed URL for public access with a 12-hour expiration
+//     // const preSignedUrl = generatePublicPresignedUrl(req.file.key);
+
+//     // Check if the object has been successfully uploaded
+//     // if (!req.file) {
+//     //   return res
+//     //     .status(400)
+//     //     .send({ status: false, msg: "No project image provided" });
+//     // }
+
+//     const email_id = data.email_id;
+
+//     // Check if the email id already exists
+//     const existingUser = await userModel.findOne({ email_id });
+
+//     if (existingUser) {
+//       return res.status(400).json({
+//         success: false,
+//         msg: "User already exists, please register with another email id",
+//       });
+//     }
+
+//     // Create a new user with the hashed password and profile_pic
+//     const newUser = await userModel.create({
+//       ...data,
+//       password: hashedPassword,
+//       profile_pic: profile_pic,
+//     });
+
+//     // Return a success response if data insertion is successful
+//     return res.status(201).json({
+//       status: true,
+//       msg: "User registered successfully",
+//       data: newUser,
+//     });
+//   } catch (err) {
+//     // Handle any errors that occur during the process
+//     console.error(err);
+
+//     // Return an error response
+//     return res
+//       .status(500)
+//       .json({ msg: "Internal server error", status: false });
+//   }
+// };
+
 const createUser = async (req, res) => {
   try {
-    // Generate a salt for password hashing
     const salt = await bcrypt.genSalt(10);
-    // console.log(req.body.password)
-    const { password } = req.body;
+    const { password, description, landmark, city, profile_pic } = req.body;
 
-    // Hash the password using the generated salt
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Extract user data from the request body
-    const data = req.body;
-
-    // Check if any data is provided in the request
-    if (Object.keys(data).length === 0) {
-      return res.status(400).send({ status: false, msg: "no data provided" });
+    if (!password || !description || !landmark || !city || !profile_pic) {
+      return res.status(400).send({
+        status: false,
+        msg: "Please provide all required data: password, description, location, profile_pic",
+      });
     }
 
-    // Check if the image has been successfully uploaded
-    const { profile_pic } = req.body;
-    if (!profile_pic) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "No project image provided" });
-    }
+    const email_id = req.body.email_id;
 
-    // Generate a pre-signed URL for public access with a 12-hour expiration
-    // const preSignedUrl = generatePublicPresignedUrl(req.file.key);
-
-    // Check if the object has been successfully uploaded
-    // if (!req.file) {
-    //   return res
-    //     .status(400)
-    //     .send({ status: false, msg: "No project image provided" });
-    // }
-
-    const email_id = data.email_id;
-
-    // Check if the email id already exists
     const existingUser = await userModel.findOne({ email_id });
 
     if (existingUser) {
@@ -54,29 +103,30 @@ const createUser = async (req, res) => {
       });
     }
 
-    // Create a new user with the hashed password and profile_pic
     const newUser = await userModel.create({
-      ...data,
+      name: req.body.name,
+      phone_number: req.body.phone_number,
+      gender: req.body.gender,
+      email_id: req.body.email_id,
       password: hashedPassword,
-      profile_pic: profile_pic,
+      description: req.body.description,
+      landmark: req.body.landmark,
+      city: req.body.city,
+      profile_pic: req.body.profile_pic,
+      role: req.body.role || "user", // Set default role if not provided
     });
 
-    // Return a success response if data insertion is successful
     return res.status(201).json({
       status: true,
       msg: "User registered successfully",
       data: newUser,
     });
   } catch (err) {
-    // Handle any errors that occur during the process
     console.error(err);
-
-    // Return an error response
-    return res
-      .status(500)
-      .json({ msg: "Internal server error", status: false });
+    return res.status(500).json({ msg: "Internal server error", status: false });
   }
 };
+
 
 //                   LOGIN USER CONTROLLER
 const loginUser = async (req, res) => {

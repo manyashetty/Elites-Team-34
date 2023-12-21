@@ -14,7 +14,7 @@ const io = socketio(server);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+
 const corsOptions = {
   origin: ['http://localhost:3000',
   'http://localhost:3001', 'http://localhost:3002']

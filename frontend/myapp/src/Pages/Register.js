@@ -14,7 +14,11 @@ const Registration = () => {
     gender: "",
     email_id: "",
     password: "",
+    description: "",
+    landmark:"",
+    city:"",
     profile_pic: "",
+    role:"",
   });
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const navigate= useNavigate()
@@ -28,27 +32,13 @@ const Registration = () => {
     });
   };
 
-  // Handle file input for profile picture
-  // const handleFileChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     profile_pic: e.target.files[0],
-  //   });
-  // };
+ 
 
   const handleSubmit = async (e) => {
     // Set isLoading to true to show the loader
     setIsLoading(true);
     e.preventDefault();
 
-    // Create a FormData object to handle file uploads
-    // const formDataToSend = new FormData();
-    // formDataToSend.append("name", formData.name);
-    // formDataToSend.append("phone_number", formData.phone_number);
-    // formDataToSend.append("gender", formData.gender);
-    // formDataToSend.append("email_id", formData.email_id);
-    // formDataToSend.append("password", formData.password);
-    // formDataToSend.append("profile_pic", formData.profile_pic);
 
     try {
       const response = await axios.post(
@@ -94,6 +84,25 @@ const Registration = () => {
               />
             </div>
           </div>
+
+          <div className="mb-4">
+          <label className="block text-sm font-medium text-white">
+            Role
+          </label>
+          <select
+            className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+          >
+            <option value="">Select your role</option>
+            <option value="user">Volunteer</option>
+            <option value="supplier">Supplier</option>
+            <option value="consumer">Consumer</option>
+            {/* Add other role options as needed */}
+          </select>
+        </div>
+
 
           <div className="mb-4">
             <label className="block text-sm font-medium  text-white">
@@ -153,6 +162,47 @@ const Registration = () => {
               onChange={handleInputChange}
             />
           </div>
+
+          <div className="mb-4">
+          <label className="block text-sm font-medium text-white">
+            Description
+          </label>
+          <textarea
+            className="mt-1 p-2 w-full border shadow-2xl rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="Tell us about yourself"
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+          ></textarea>
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-white">
+            Landmark
+          </label>
+          <input
+            type="text"
+            className="mt-1 p-2 w-full border shadow-2xl rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="Your location"
+            name="landmark"
+            value={formData.landmark}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-white">
+            City
+          </label>
+          <input
+            type="text"
+            className="mt-1 p-2 w-full border shadow-2xl rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="Your location"
+            name="city"
+            value={formData.city}
+            onChange={handleInputChange}
+          />
+        </div>
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-white">

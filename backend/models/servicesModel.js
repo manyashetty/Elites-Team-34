@@ -2,15 +2,19 @@ const mongoose = require("mongoose");
 
 const servicesSchema = new mongoose.Schema(
   {
-    service_name: {
+    food_type: {
       type: String,
       required: true,
     },
-    service_image: {
+    location: {
       type: String,
       required: true,
     },
-    service_description: {
+    servings: {
+      type: String,
+      required: true,
+    },
+    timings: {
       type: String,
       required: true,
     },

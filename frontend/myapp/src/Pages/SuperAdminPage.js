@@ -80,7 +80,7 @@ const SuperAdminPage = () => {
         <div className="container mx-auto p-2">
           <div className="md:flex items-center justify-between ">
             <h1 className="text-2xl text-white md:text-5xl flex-1 text-center md:text-left">
-              LEADER PANEL
+              List Of Nearby Consumers
             </h1>
             <div className="flex items-center">
               <button
@@ -106,21 +106,21 @@ const SuperAdminPage = () => {
                   alt={user.name}
                   className="object-cover w-full h-48 rounded mb-4"
                 />
-                <h3 className="text-xl font-semibold mb-2">{user.name}</h3>
-                <p className="text-gray-700">{user.role}</p>
+                <h3 className="text-xl font-semibold mb-2">{user.name}{user.landmark}</h3>
+                <p className="text-gray-700">{user.role}{user.city}</p>
                 <div className="mt-4">
                   <button
                     className="mr-2 px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
                     onClick={() => handlePromote(user._id)}
                   >
-                    Give Access
+                    Details
                   </button>
-                  <button
+                  {/* <button
                     className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
                     onClick={() => handleDemote(user._id)}
                   >
                     Remove Access
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))}
