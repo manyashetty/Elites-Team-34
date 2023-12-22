@@ -56,7 +56,7 @@ const SuperAdminPage = () => {
       .then((response) => {
         // Update the user's role in the local state
         const updatedUsers = users.map((user) =>
-          user._id === userId ? { ...user, role: "user" } : user
+          user._id === userId ? { ...user, role: "consumer" } : user
         );
         setUsers(updatedUsers);
       })

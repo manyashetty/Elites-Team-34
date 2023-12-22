@@ -280,11 +280,30 @@ const updateProject = async (req, res) => {
   }
 };
 
+const getProjectById = async (req, res) => {
+  const projectId = req.params.id; // Assuming the ID is passed as a route parameter
+
+  try {
+    const project = await Project.findById(projectId).populate('user', 'name email'); // Assuming 'user' field is populated from the 'User' model
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.status(200).json({ project });
+  } catch (error) {
+    console.error('Error fetching project by ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 module.exports = {
   createProject,
   authenticateMiddleware,
   getProjects,
   getAllProjects,
+  getProjectById,
   deleteProject,
   updateProject,
 };

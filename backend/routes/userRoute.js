@@ -22,6 +22,7 @@ router.get("/users",userController.getAllusers)
 // PROJECT CREATION, DISPLAY, DELETE, UPDATE ROUTE
 router.post("/projects", authenticateMiddleware,projectController.createProject);
 router.get("/projects",authenticateMiddleware,projectController.getAllProjects)
+router.get("/projects/:id",projectController. getProjectById)
 router.delete("/projects",projectController.deleteProject)
 router.put("/projects",projectController.updateProject)
 

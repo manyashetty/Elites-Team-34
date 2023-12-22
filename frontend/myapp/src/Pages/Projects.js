@@ -247,13 +247,11 @@ const ProjectsPage = () => {
               <div className="px-6 pt-4 pb-2 flex justify-between">
             
                   <>
-                    <button
-                      onClick="/details"
-                      className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
-                    >
-                      Details
-                    </button>
-                    
+                  <Link to={`/projects/${project._id}`}>
+  <button className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2">
+    Details
+  </button>
+</Link>
                   </>
               
               </div>

@@ -222,6 +222,16 @@ const Profile = () => {
           <p>Loading user data...</p>
         )}
       </div>
+      <iframe
+  width="600"
+  height="450"
+  style={{ border: '0' }}
+  loading="lazy"
+  allowFullScreen
+  referrerPolicy="no-referrer-when-downgrade"
+  src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCnl9q30JEXBUt-g7pYe9XOc2f6vpy-fgc&SahyadriCollegeofEngineeringAndManagement+Mangalore">
+
+</iframe>
     </div>
   );
 };
