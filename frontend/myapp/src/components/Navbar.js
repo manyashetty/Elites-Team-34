@@ -327,7 +327,7 @@ function Navbar() {
                 href="/projects"
                 onClick={closeMenu}
               >
-                Profile
+                Services
               </a>
             </li>
             
@@ -404,7 +404,7 @@ function Navbar() {
             className="text-white hover:text-gray-200 hover:underline font-serif"
             href="/projects"
           >
-            Profile
+            Services
           </a>
         </li>
         

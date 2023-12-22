@@ -2,6 +2,7 @@ import React from 'react';
 import Profile from '../components/Profile';
 import Projects from '../components/Projects';
 import Navbar from '../components/Navbar';
+import ScoreBoard from '../components/ScoreBoard';
 import Footer from '../components/Footer';
 import img from '../images/pexels-fauxels-3183150.jpg';
 import Carousel from 'react-bootstrap/Carousel';
@@ -15,8 +16,8 @@ const HomePage = () => {
       <Navbar />
       <div className="grid grid-cols-12 gap-4">
       <div className="col-span-full lg:col-span-3">
-          {/* Leaderboard or other content */}
-          {/* Add your leaderboard or other content here */}
+        <ScoreBoard/>
+    
         </div>
 
 

@@ -6,6 +6,7 @@ import Registration from "./Pages/Register";
 import ContactForm from "./components/ContactForm";
 import Chat from "./Pages/Chat";
 import ProjectForm from "./components/ProjectForm";
+import { Details } from "./Pages/Details";
 import Projects from "./Pages/Projects";
 // import FeedsPage from "./Pages/Feed";
 // import FeedForm from "./components/feedsForm";
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<LoginForm />}></Route>
           <Route path="/register" element={<Registration />}></Route>
           <Route path="/contacts" element={<ContactForm />}></Route>
+          <Route path="/details" element={<Details/>}/>
           <Route path="/chat" element={<Chat />}></Route>
           <Route path="/projectform" element={<ProjectForm />}></Route>
           <Route path="/projects" element={<Projects />}></Route>

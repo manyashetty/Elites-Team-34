@@ -1,4 +1,4 @@
-const projectModel = require("../models/projectModel");
+const Project = require("../models/projectModel");
 const jwt = require("jsonwebtoken");
 const aws = require("aws-sdk");
 const multerConfig = require("../middleware/multer");
@@ -76,88 +76,119 @@ const tryRefreshToken = (refreshToken, res, next) => {
 
 // CREATE A PROJECT CONTROLLER
 
+// const createProject = async (req, res) => {
+//   try {
+//     let projectData = req.body;
+
+//     const userId = req.user.user_id;
+
+//     if (Object.keys(projectData).length === 0) {
+//       return res.status(400).send({ status: false, msg: "no data provided" });
+//     }
+
+
+//     let saveProject = await projectModel.create({
+//       ...projectData,
+//       user: userId,
+      
+//     });
+//     return res.status(201).send({
+//       status: true,
+//       msg: "project creation success",
+//       data: saveProject,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send({ msg: "Internal server error", staus: false });
+//   }
+// };
 const createProject = async (req, res) => {
   try {
-    let projectData = req.body;
+    const { food_type, location, servings, timings, date } = req.body;
+    const { user_id } = req.user; // Assuming your JWT payload contains user_id
 
-    const userId = req.user.user_id;
-
-    if (Object.keys(projectData).length === 0) {
-      return res.status(400).send({ status: false, msg: "no data provided" });
-    }
-    // Check if the image has been successfully uploaded
-    if (!req.file) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "No project image provided" });
-    }
-
-    // Generate a pre-signed URL for public access with a 12-hour expiration
-    const preSignedUrl = generatePublicPresignedUrl(req.file.key);
-
-    let saveProject = await projectModel.create({
-      ...projectData,
-      user: userId,
-      project_image: preSignedUrl,
+    // Now you have the user_id and can use it to create the project
+    const newProject = await Project.create({
+      food_type,
+      location,
+      servings,
+      timings,
+      date,
+      user: user_id, // Assign the user_id to the project's user field
     });
-    return res.status(201).send({
-      status: true,
-      msg: "project creation success",
-      data: saveProject,
-    });
+
+    res.status(201).json(newProject);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({ msg: "Internal server error", staus: false });
+    console.error(error);
+    res.status(500).json({ message: err.message });
   }
 };
 
 //DISPLAY ALL THE PROJECTS OF LOGGED IN USER
 
+// const getProjects = async (req, res) => {
+//   try {
+    
+//     const userId = req.user.user_id;
+
+//     const projectId = req.query.projectId;
+//     if (projectId) {
+//       const project = await projectModel.findOne({ _id: projectId });
+//       return res.status(200).send({
+//         status: true,
+//         msg: "Project retrieved successfully",
+//         data: project,
+//       });
+//     }
+
+//     if (!userId) {
+//       try {
+//         const projects = await projectModel.find();
+
+//         return res.status(200).send({
+//           status: true,
+//           msg: "All projects retrieved successfully",
+//           data: projects,
+//         });
+//       } catch (error) {
+//         console.error(error);
+//         return res
+//           .status(500)
+//           .send({ msg: "Internal server error", status: false });
+//       }
+//     }
+
+//     const userProjects = await projectModel.find({ user: userId });
+
+//     return res.status(200).json({
+//       status: true,
+//       msg: "User projects retrieved successfully",
+//       data: userProjects,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res
+//       .status(500)
+//       .json({ msg: "Internal server error", status: false });
+//   }
+// };
+
 const getProjects = async (req, res) => {
   try {
-    
-
+    // Use Project model to perform find operations
     const userId = req.user.user_id;
-
-    const projectId = req.query.projectId;
-    if (projectId) {
-      const project = await projectModel.findOne({ _id: projectId });
-      return res.status(200).send({
-        status: true,
-        msg: "Project retrieved successfully",
-        data: project,
-      });
-    }
-
-    if (!userId) {
-      try {
-        const projects = await projectModel.find();
-
-        return res.status(200).send({
-          status: true,
-          msg: "All projects retrieved successfully",
-          data: projects,
-        });
-      } catch (error) {
-        console.error(error);
-        return res
-          .status(500)
-          .send({ msg: "Internal server error", status: false });
-      }
-    }
-
-    const userProjects = await projectModel.find({ user: userId });
-
-    return res.status(200).json({
-      status: true,
-      msg: "User projects retrieved successfully",
-      data: userProjects,
-    });
+    // Rest of the code remains the same
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({ msg: "Internal server error", status: false });
+    return res.status(500).json({ msg: "Internal server error", status: false });
+  }
+};
+const getAllProjects = async (req, res) => {
+  try {
+    const projects = await Project.find().populate('user', 'username'); // Populate user field with 'username' from 'user' model, adjust as per your user model fields
+    res.json({ success: true, data: projects });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -180,17 +211,17 @@ const deleteProject = async (req, res) => {
     }
 
     // Get the image key associated with the project
-    const imageKey = projectToDelete.project_image;
+    
 
     // Deleting the project
     await projectModel.findByIdAndDelete(projectId);
 
     // Delete the image from the S3 bucket
-    await deleteImageFromS3(imageKey);
+    
 
     return res.status(200).json({
       status: true,
-      msg: "Project and associated image deleted successfully",
+      msg: "Project deleted successfully",
       deleted_project: projectToDelete,
     });
   } catch (error) {
@@ -201,30 +232,12 @@ const deleteProject = async (req, res) => {
   }
 };
 
-// Function to delete an image from the S3 bucket
-const deleteImageFromS3 = (imageKey) => {
-  const params = {
-    Bucket: process.env.WASABI_BUCKET,
-    Key: imageKey,
-  };
-
-  return new Promise((resolve, reject) => {
-    s3.deleteObject(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
 // UPDATE A PROJECT
 const updateProject = async (req, res) => {
   try {
     const project_id = req.query.id;
     const projectDataToUpdate = req.body;
-    const newImageFile = req.file;
+   
 
     if (!project_id) {
       return res.status(400).json({
@@ -234,24 +247,7 @@ const updateProject = async (req, res) => {
     }
 
     // Check if a new image file has been provided
-    if (newImageFile) {
-      // Retrieve the existing image key from the database
-      const existingProject = await projectModel.findById(project_id);
-      const existingImageKey = existingProject.project_image;
 
-      // Delete the old image from S3
-      await s3
-        .deleteObject({
-          Bucket: process.env.WASABI_BUCKET,
-          Key: existingImageKey,
-        })
-        .promise();
-
-      // Generate a pre-signed URL for the new image
-      const newImageURL = generatePublicPresignedUrl(newImageFile.key);
-
-      projectDataToUpdate.project_image = newImageURL;
-    }
 
     // Construct an update object with only provided fields
     const updateObject = {};
@@ -288,6 +284,7 @@ module.exports = {
   createProject,
   authenticateMiddleware,
   getProjects,
+  getAllProjects,
   deleteProject,
   updateProject,
 };

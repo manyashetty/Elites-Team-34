@@ -1,22 +1,31 @@
 const mongoose = require("mongoose");
 
-const projectSchema = new mongoose.Schema(
+const currentavailSchema = new mongoose.Schema(
   {
-    project_image: {
+    food_type: {
       type: String,
       required: true,
     },
-    project_name: {
+    location: {
       type: String,
       required: true,
     },
-    project_description: {
+    servings: {
       type: String,
+      required: true,
+    },
+    timings:{
+      type: String,
+      required: true,
+    },
+    date:{
+      type: Date,
       required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'users',
+      ref: 'User',
+     
     },
   },
   {
@@ -24,4 +33,4 @@ const projectSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("projects", projectSchema);
+module.exports = mongoose.model("projects", currentavailSchema);

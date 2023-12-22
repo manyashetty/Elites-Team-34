@@ -20,10 +20,10 @@ router.get("/users",userController.getAllusers)
 
 
 // PROJECT CREATION, DISPLAY, DELETE, UPDATE ROUTE
-router.post("/projects", authenticateMiddleware,upload.single('project_image'), projectController.createProject);
-router.get("/projects",authenticateMiddleware,projectController.getProjects)
+router.post("/projects", authenticateMiddleware,projectController.createProject);
+router.get("/projects",authenticateMiddleware,projectController.getAllProjects)
 router.delete("/projects",projectController.deleteProject)
-router.put("/projects",upload.single('project_image'),projectController.updateProject)
+router.put("/projects",projectController.updateProject)
 
 // CONTACT FORM 
 router.post("/contacts",authenticateMiddleware,contactController.submitContactForm)
